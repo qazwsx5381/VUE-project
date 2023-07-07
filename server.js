@@ -8,6 +8,8 @@ const app = express();
 const request = require("request");
 const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser();
+const axios = require("axios");
+const cheerio = require("cheerio");
 const key = process.env.okey;
 const url = `https://apis.data.go.kr/6260000/BusanBIMS/stopArrByBstopid`;
 
@@ -77,20 +79,44 @@ app.post("/busStopnum", (req, res) => {
   });
 });
 
-/* MongoDB CRUD */
+/* 7. 주식정보 저장하기 (MongoDB CRUD) */
 // 1. create
-// app.post('/dbc', (req, res) => {
-//   const title = req.body.title
-//   const content = req.body.content
-//   const date = req.body.date
-//   console.log(date)
-//   ;(() => {
-//     const _data = { title, content, date }
-//     const vs = new VSchema(_data)
-//     const t = vs.save()
-//     res.send('입력완료!')
-//   })()
-// })
+const price_url = `https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?serviceKey=${key}&numOfRows=1&pageNo=1&itmsNm=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90&resultType=json`;
+function datasave() {
+  request(price_url, (e, re, body) => {
+    const view = parser.parse(body);
+    console.log(view);
+    // const _ = view.response.body.items.item;
+  });
+  // $("#boxSummary .currentStk .currentStk .currentB .numB strong").each(
+  //   function () {
+  //     data = $(this).text();
+  //     console.log(data);
+  //   }
+  // );
+  // (() => {
+  //   const _data = { data };
+  //   const vs = new VSchema(_data);
+  //   const t = vs.save();
+  //   console.log("저장되었습니다.");
+  // })();
+}
+datasave();
+// setInterval(() => {
+//   datasave();
+// }, 10 * 1000);
+app.post("/samsungDB", (req, res) => {
+  // const title = req.body.title;
+  // const content = req.body.content;
+  // const date = req.body.date;
+  // console.log(date);
+  // (() => {
+  //   const _data = { title, content, date };
+  //   const vs = new VSchema(_data);
+  //   const t = vs.save();
+  //   res.send("입력완료!");
+  // })();
+});
 
 // app.get('/dbr/:date', (req, res) => {
 //   const date = req.params.date

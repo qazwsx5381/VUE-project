@@ -3,7 +3,8 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/translate">번역기</router-link> |
     <router-link to="/bus_db">BUS 도착정보</router-link> |
-    <router-link to="/my_location">내 현재위치</router-link>
+    <router-link to="/my_location">내 현재위치</router-link> |
+    <router-link to="/samsungDB">주식정보</router-link>
   </nav>
   <router-view />
 </template>
