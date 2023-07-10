@@ -30,7 +30,6 @@ app.post("/translate", function (req, res) {
   let tar = req.body.trans_lang;
   let transLang = req.body.trans_text;
   const api_transurl = "https://openapi.naver.com/v1/papago/n2mt";
-  const request = require("request");
   const options = {
     url: api_transurl,
     form: { source: sou, target: tar, text: transLang },
@@ -79,43 +78,56 @@ app.post("/busStopnum", (req, res) => {
   });
 });
 
-/* 7. 주식정보 저장하기 (MongoDB CRUD) */
-// 1. create
-const price_url = `https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?serviceKey=${key}&numOfRows=1&pageNo=1&itmsNm=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90&resultType=json`;
+/* 7. 주식정보(MongoDB CRUD) */
+// (1) 주식정보 저장(서버가 켜지면 1분마다 저장 시작)
 function datasave() {
-  request(price_url, (e, re, body) => {
-    const view = parser.parse(body);
-    console.log(view);
-    // const _ = view.response.body.items.item;
+  let today = new Date();
+  const price_url = `https://kr.investing.com/equities/samsung-electronics-co-ltd`;
+  axios.get(price_url).then((res) => {
+    const $ = cheerio.load(res.data);
+    const price_data = $(".mb-6 .text-5xl").text();
+    // console.log(today);
+    // console.log(typeof today.toLocaleString());
+    (() => {
+      const _data = {
+        name: "삼성전자",
+        data: price_data,
+        name_code: "005930",
+        time: today.toLocaleString(),
+      };
+      const vs = new VSchema(_data);
+      vs.save();
+      console.log(today.toLocaleString(), "저장되었습니다.");
+    })();
   });
-  // $("#boxSummary .currentStk .currentStk .currentB .numB strong").each(
-  //   function () {
-  //     data = $(this).text();
-  //     console.log(data);
-  //   }
-  // );
-  // (() => {
-  //   const _data = { data };
-  //   const vs = new VSchema(_data);
-  //   const t = vs.save();
-  //   console.log("저장되었습니다.");
-  // })();
 }
 datasave();
-// setInterval(() => {
-//   datasave();
-// }, 10 * 1000);
+setInterval(() => {
+  datasave();
+}, 60 * 1000);
+
+// (2) 저장된 데이터 내보내기
 app.post("/samsungDB", (req, res) => {
-  // const title = req.body.title;
-  // const content = req.body.content;
-  // const date = req.body.date;
-  // console.log(date);
-  // (() => {
-  //   const _data = { title, content, date };
-  //   const vs = new VSchema(_data);
-  //   const t = vs.save();
-  //   res.send("입력완료!");
-  // })();
+  const show_count = req.body.chartData;
+  console.log(show_count);
+  const read = () => {
+    if (show_count === "All") {
+      VSchema.find({}, { _id: 0, __v: 0 })
+        .sort({ time: -1 })
+
+        .then((rst) => {
+          res.send(rst);
+        });
+    } else {
+      VSchema.find({}, { _id: 0, __v: 0 })
+        .sort({ time: -1 })
+        .limit(show_count)
+        .then((rst) => {
+          res.send(rst);
+        });
+    }
+  };
+  read();
 });
 
 // app.get('/dbr/:date', (req, res) => {
