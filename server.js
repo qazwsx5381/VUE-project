@@ -11,6 +11,7 @@ const parser = new XMLParser();
 const axios = require("axios");
 const cheerio = require("cheerio");
 const key = process.env.okey;
+const ex_key = process.env.ex_key;
 const url = `https://apis.data.go.kr/6260000/BusanBIMS/stopArrByBstopid`;
 
 /* post를 위한 구문 */
@@ -21,6 +22,15 @@ app.use("/", express.static(_path));
 /* 로그 정보(최소화 해서 표현) */
 app.use(logger("tiny"));
 
+/* 2. 실시간 환율 */
+const price_url = `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=${ex_key}&data=AP01`;
+function fetchData() {
+  axios.post(price_url).then((res) => {
+    console.log(res);
+  });
+}
+
+fetchData();
 /* 4. 실시간 번역기 */
 const client_id = process.env.naverClientID;
 const client_secret = process.env.naverClientSecret;
