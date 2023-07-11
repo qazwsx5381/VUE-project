@@ -14,7 +14,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MyFace1.vue"),
+      import(
+        /* webpackChunkName: "about",webpackPrefetch:true */ "../views/MyFace1.vue"
+      ),
   },
   {
     path: "/face2",
@@ -23,7 +25,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MyFace2.vue"),
+      import(
+        /* webpackChunkName: "about",webpackPrefetch:true */ "../views/MyFace2.vue"
+      ),
   },
   {
     path: "/face3",
@@ -32,7 +36,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MyFace3.vue"),
+      import(
+        /* webpackChunkName: "about",webpackPrefetch:true */ "../views/MyFace3.vue"
+      ),
   },
   {
     path: "/face4",
@@ -41,7 +47,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MyFace4.vue"),
+      import(
+        /* webpackChunkName: "about",webpackPrefetch:true */ "../views/MyFace4.vue"
+      ),
   },
   {
     path: "/face5",
@@ -50,7 +58,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MyFace5.vue"),
+      import(
+        /* webpackChunkName: "about",webpackPrefetch:true */ "../views/MyFace5.vue"
+      ),
   },
   {
     path: "/face6",
@@ -59,7 +69,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MyFace6.vue"),
+      import(
+        /* webpackChunkName: "about",webpackPrefetch:true */ "../views/MyFace6.vue"
+      ),
   },
   {
     path: "/face7",
@@ -68,7 +80,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MyFace7.vue"),
+      import(
+        /* webpackChunkName: "about",webpackPrefetch:true */ "../views/MyFace7.vue"
+      ),
   },
 ];
 

@@ -13,6 +13,7 @@ const cheerio = require("cheerio");
 const key = process.env.okey;
 const ex_key = process.env.ex_key;
 const url = `https://apis.data.go.kr/6260000/BusanBIMS/stopArrByBstopid`;
+console.log(key);
 
 /* post를 위한 구문 */
 app.use(express.json());
