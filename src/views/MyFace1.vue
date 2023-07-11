@@ -106,6 +106,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
 }
 .inner select {
   width: 200px;
@@ -115,6 +116,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
 }
 .show .show_1 select {
   width: 200px;
