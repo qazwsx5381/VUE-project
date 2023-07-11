@@ -22,15 +22,51 @@ app.use("/", express.static(_path));
 /* 로그 정보(최소화 해서 표현) */
 app.use(logger("tiny"));
 
-/* 2. 실시간 환율 */
-const price_url = `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=${ex_key}&data=AP01`;
-function fetchData() {
-  axios.post(price_url).then((res) => {
-    console.log(res);
+/* 1. 실시간 미세먼지 정보 */
+app.post("/air", (req, res) => {
+  const sido = encodeURI(req.body.air_area);
+  const price_url = `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${key}&returnType=json&numOfRows=100&pageNo=1&sidoName=${sido}&ver=1.0`;
+  request(price_url, (e, response, body) => {
+    const _ = JSON.parse(body);
+    const data = _.response.body.items;
+    res.send(data);
   });
-}
+});
 
-fetchData();
+/* 2. 실시간 환율 */
+app.post("/exchange", (req, res) => {
+  const money = req.body.kor_money;
+  const price_url = `https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD`;
+  request(price_url, (e, response, body) => {
+    const price_dol = JSON.parse(body);
+    const ex_dol = price_dol[0].basePrice;
+    res.send({ sendmoney: money * ex_dol });
+  });
+});
+
+/* 3. 실시간 음악차트 가져오기 */
+app.post("/chart", (req, response) => {
+  const url = "https://www.melon.com/";
+  axios.get(url).then((res) => {
+    const $ = cheerio.load(res.data);
+    const song = [];
+    const artist = [];
+    const chartTop10 = [];
+    $(".rank_info .song .mlog").each(function () {
+      song.push($(this).text());
+    });
+    $(".rank_info .artist .ellipsis .checkEllipsisRealtimeChart .mlog").each(
+      function () {
+        artist.push($(this).text());
+      }
+    );
+    artist.forEach((v, i) => {
+      chartTop10.push({ song: song[i], artist: v });
+    });
+    response.send(chartTop10);
+  });
+});
+
 /* 4. 실시간 번역기 */
 const client_id = process.env.naverClientID;
 const client_secret = process.env.naverClientSecret;
