@@ -11,9 +11,7 @@ const parser = new XMLParser();
 const axios = require("axios");
 const cheerio = require("cheerio");
 const key = process.env.okey;
-const ex_key = process.env.ex_key;
 const url = `https://apis.data.go.kr/6260000/BusanBIMS/stopArrByBstopid`;
-console.log(key);
 
 /* post를 위한 구문 */
 app.use(express.json());
@@ -176,47 +174,6 @@ app.post("/samsungDB", (req, res) => {
   };
   read();
 });
-
-// app.get('/dbr/:date', (req, res) => {
-//   const date = req.params.date
-//   const read = () => {
-//     VSchema.findOne({ date }, { _id: 0, __v: 0 })
-//       .then((rst) => {
-//         res.send(rst)
-//         app.post('/dbu', (req, res) => {
-//           const edit_title = req.body.title
-//           const edit_content = req.body.content
-//           const edit_date = req.body.date
-//           ;(() => {
-//             VSchema.updateOne(
-//               { date: { $eq: rst.date } },
-//               {
-//                 $set: {
-//                   title: edit_title,
-//                   content: edit_content,
-//                   date: edit_date
-//                 }
-//               }
-//             )
-//               .then(() => {
-//                 res.send('수정이 완료되었습니다.')
-//               })
-//               .catch((e) => console.error(e))
-//           })()
-//         })
-//       })
-//       .catch((e) => console.error(e))
-//   }
-//   read()
-// })
-
-// app.post('/dbd', (req, res) => {
-//   const del_date = req.body.del_date
-//   console.log(del_date)
-//   VSchema.deleteOne({ date: del_date }).then(() => {
-//     res.send('삭제가 완료되었습니다.')
-//   })
-// })
 
 app.listen(3000, () => {
   console.log("3000 포트를 열었습니다.");
