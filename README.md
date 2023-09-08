@@ -1,6 +1,6 @@
 # project
 Vuejs와 Nodejs를 활용한 프로젝트
-## View폴더 안
+## View Page
 1) 전국 미세먼지 농도
 2) 환율api를 활용한 환전 페이지
 3) 실시간 멜론 top10을 크롤링하는 페이지
